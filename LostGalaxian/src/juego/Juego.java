@@ -1,5 +1,6 @@
 package juego;
 
+//comentariooo
 
 import entorno.Entorno;
 import entorno.Herramientas;
