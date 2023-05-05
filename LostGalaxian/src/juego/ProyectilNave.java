@@ -21,8 +21,12 @@ public class ProyectilNave {
 	}
 	
 	public void dibujarse(Entorno entorno) {
-	
 		entorno.dibujarImagen(img, x, y, angulo);;
 	
+	}
+
+	public void subir() {
+		this.y -= Math.cos(this.angulo)*10;
+		
 	}
 }

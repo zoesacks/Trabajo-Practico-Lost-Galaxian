@@ -8,6 +8,8 @@ public class Juego extends InterfaceJuego {
 	
 	// Variables y métodos propios de cada grupo
 	Nave nave;
+	ProyectilNave proyectilNave;
+	boolean disparo;
 	
 	Juego()
 	{
@@ -16,6 +18,8 @@ public class Juego extends InterfaceJuego {
 		
 		// Inicializar lo que haga falta para el juego
 		nave = new Nave(400, 550);
+		proyectilNave = new ProyectilNave(400, 550);
+		disparo = false;
 		
 		
 		// Inicia el juego!
@@ -38,7 +42,25 @@ public class Juego extends InterfaceJuego {
 		if(entorno.estaPresionada(entorno.TECLA_DERECHA)) {
 			nave.moverDerecha();
 		}
-        
+		
+		//pregunto disparo para que solo se pueda hacer una por vez
+		if(entorno.estaPresionada(entorno.TECLA_ESPACIO) && !disparo) {
+			disparo = true;
+			proyectilNave.x = nave.x;
+		}
+		
+		if(disparo) {
+      		if(proyectilNave.y > 0) {
+      			proyectilNave.subir();
+				proyectilNave.dibujarse(entorno);		
+			}  
+      		else {
+        		disparo = false;
+        		proyectilNave.y = 600;    			
+      		}
+
+		}
+
 	}
 
 	@SuppressWarnings("unused")
