@@ -1,12 +1,6 @@
 package juego;
 
-import entorno.Entorno;
-
-//comentariooo
-//
-import entorno.Entorno;
-import entorno.Herramientas;
-import entorno.InterfaceJuego;
+import entorno.*;
 
 public class Juego extends InterfaceJuego {
 	// El objeto Entorno que controla el tiempo y otros
@@ -37,6 +31,13 @@ public class Juego extends InterfaceJuego {
 	public void tick()
 	{ 
 		nave.dibujarse(entorno);
+		
+		if(entorno.estaPresionada(entorno.TECLA_IZQUIERDA)) {
+			nave.moverIzquierda();
+		}
+		if(entorno.estaPresionada(entorno.TECLA_DERECHA)) {
+			nave.moverDerecha();
+		}
         
 	}
 
