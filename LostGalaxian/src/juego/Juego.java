@@ -8,6 +8,7 @@ public class Juego extends InterfaceJuego {
 	
 	// Variables y métodos propios de cada grupo
 	Nave nave;
+	Asteroide[] asteroides;
 	
 	Juego()
 	{
@@ -16,6 +17,11 @@ public class Juego extends InterfaceJuego {
 		
 		// Inicializar lo que haga falta para el juego
 		nave = new Nave(400, 550);
+		
+		this.asteroides = new Asteroide[5];
+		for (int i = 0; i< this.asteroides.length; i++) {
+			this.asteroides[i] = new Asteroide();
+		}
 		
 		
 		// Inicia el juego!
@@ -38,6 +44,14 @@ public class Juego extends InterfaceJuego {
 		if(entorno.estaPresionada(entorno.TECLA_DERECHA)) {
 			nave.moverDerecha();
 		}
+		
+		for (Asteroide a : this.asteroides) {
+			a.dibujarse(entorno);
+			a.avanzar();
+		}
+		
+		
+
         
 	}
 
