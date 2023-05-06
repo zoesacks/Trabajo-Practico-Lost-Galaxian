@@ -8,13 +8,10 @@ public class Juego extends InterfaceJuego {
 	
 	// Variables y métodos propios de cada grupo
 	Nave nave;
-<<<<<<< HEAD
 	Asteroide[] asteroides;
-=======
 	ProyectilNave proyectilNave;
 	boolean disparo;
->>>>>>> 049f17f0019aa649d761317ff6bee5997895f983
-	
+
 	Juego()
 	{
 		// Inicializa el objeto entorno
@@ -52,16 +49,11 @@ public class Juego extends InterfaceJuego {
 			nave.moverDerecha();
 		}
 		
-<<<<<<< HEAD
 		for (Asteroide a : this.asteroides) {
 			a.dibujarse(entorno);
 			a.avanzar();
 		}
 		
-		
-
-        
-=======
 		//pregunto disparo para que solo se pueda hacer una por vez
 		if(entorno.estaPresionada(entorno.TECLA_ESPACIO) && !disparo) {
 			disparo = true;
@@ -80,7 +72,6 @@ public class Juego extends InterfaceJuego {
 
 		}
 
->>>>>>> 049f17f0019aa649d761317ff6bee5997895f983
 	}
 
 	@SuppressWarnings("unused")
