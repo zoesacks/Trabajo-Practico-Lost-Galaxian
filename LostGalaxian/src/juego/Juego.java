@@ -10,7 +10,7 @@ public class Juego extends InterfaceJuego {
 	Nave nave;
 	Asteroide[] asteroides;
 	ProyectilNave proyectilNave;
-	boolean disparo;
+	boolean disparo, perdio;
 
 	Juego()
 	{
@@ -20,7 +20,8 @@ public class Juego extends InterfaceJuego {
 		// Inicializar lo que haga falta para el juego
 		nave = new Nave(400, 550);
 		proyectilNave = new ProyectilNave(400, 550);
-		disparo = false;
+		disparo = false; 
+		perdio = false;
 		
 		this.asteroides = new Asteroide[5];
 		for (int i = 0; i< this.asteroides.length; i++) {
@@ -41,7 +42,7 @@ public class Juego extends InterfaceJuego {
 	public void tick()
 	{ 
 		nave.dibujarse(entorno);
-		
+
 		if(entorno.estaPresionada(entorno.TECLA_IZQUIERDA)) {
 			nave.moverIzquierda();
 		}
@@ -52,6 +53,13 @@ public class Juego extends InterfaceJuego {
 		for (Asteroide a : this.asteroides) {
 			a.dibujarse(entorno);
 			a.avanzar();
+			if(nave.colision(a)) {
+					System.exit(0);		
+			}
+			if(proyectilNave.colisionoAsteroide(a)) {
+        		disparo = false;
+        		proyectilNave.y = 600;
+			}
 		}
 		
 		//pregunto disparo para que solo se pueda hacer una por vez

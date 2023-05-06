@@ -29,4 +29,8 @@ public class ProyectilNave {
 		this.y -= Math.cos(this.angulo)*10;
 		
 	}
+
+	public boolean colisionoAsteroide(Asteroide asteroide) {
+		return ((asteroide.getY() > this.y - 20 && asteroide.getY() < this.y + 20)  && (asteroide.getX() > this.x -20 && asteroide.getX() < this.x + 20));
+	}
 }

@@ -39,4 +39,9 @@ public class Nave {
 			this.x += Math.cos(this.angulo)*20;		
 		}
 	}
+	
+	public boolean colision(Asteroide asteroide) {
+		
+		return (asteroide.getY() > 480 && (asteroide.getX() > this.x -60 && asteroide.getX() < this.x + 60)); 
+	}
 }
