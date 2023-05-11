@@ -17,11 +17,11 @@ public class Asteroide {
 	public Asteroide() {
 		this.img = Herramientas.cargarImagen("asteroide.png");
 		this.establecerPosicion();
-		this.velocidad = 0.9;
+		this.velocidad = 2.0;
 		this.signo = new int[2];
 		this.signo[0] = -1;
 		this.signo[1] = 1;
-		System.out.println(this.x+" "+this.y+" "+this.velocidad+" "+  this.angulo);
+		//System.out.println(this.x+" "+this.y+" "+this.velocidad+" "+  this.angulo);
 	}
 	
 	public void dibujarse(Entorno entorno) {
@@ -41,9 +41,17 @@ public class Asteroide {
 	public void avanzar() {
 		this.y+= this.velocidad * Math.sin(this.angulo);
 		this.x+= this.velocidad * Math.cos(this.angulo);
-		if (this.x < 20 || this.x > 780 || this.y > 700 ) {
-			establecerPosicion();
-		}
+		
+		if (this.x < 20 )
+		   {
+			this.x = 20; 
+		    this.angulo = Math.PI - this.angulo;
+		   }
+		if (this.x > 780 )
+		   {
+			this.x = 780;
+			this.angulo = Math.PI - this.angulo;
+		   }
 	}
 	
 	public double getY() {
@@ -53,5 +61,9 @@ public class Asteroide {
 	public double getX() {
 		return this.x;
 	}
+
+
+	
+	
 
 }

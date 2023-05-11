@@ -31,6 +31,6 @@ public class ProyectilNave {
 	}
 
 	public boolean colisionoAsteroide(Asteroide asteroide) {
-		return ((asteroide.getY() > this.y - 20 && asteroide.getY() < this.y + 20)  && (asteroide.getX() > this.x -20 && asteroide.getX() < this.x + 20));
+		return ((asteroide.getY() > this.y - 20 )  && (asteroide.getX() > this.x -20 && asteroide.getX() < this.x + 20));
 	}
 }

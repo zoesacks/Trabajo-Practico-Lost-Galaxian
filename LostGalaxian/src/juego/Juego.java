@@ -11,25 +11,33 @@ public class Juego extends InterfaceJuego {
 	Asteroide[] asteroides;
 	ProyectilNave proyectilNave;
 	boolean disparo, perdio;
+	int tiempo;
 
 	Juego()
 	{
-		// Inicializa el objeto entorno
+
 		this.entorno = new Entorno(this, "Lost Galaxian - Grupo 3 - v1", 800, 600);
 		
-		// Inicializar lo que haga falta para el juego
 		nave = new Nave(400, 550);
-		proyectilNave = new ProyectilNave(400, 550);
+		proyectilNave = new ProyectilNave(400, 550);		
+		this.asteroides = new Asteroide[6];
+		
+		for (int i = 0; i< this.asteroides.length; i++) {
+			
+			if(i == 0) {
+				this.asteroides[i] = new Asteroide();
+			}
+			else {
+				this.asteroides[i] = null;
+			}
+			
+		}		
+
 		disparo = false; 
 		perdio = false;
 		
-		this.asteroides = new Asteroide[5];
-		for (int i = 0; i< this.asteroides.length; i++) {
-			this.asteroides[i] = new Asteroide();
-		}
+		tiempo = 0;
 		
-		
-		// Inicia el juego!
 		this.entorno.iniciar();
 	}
 
@@ -39,30 +47,22 @@ public class Juego extends InterfaceJuego {
 	 * estado interno del juego para simular el paso del tiempo (ver el enunciado
 	 * del TP para mayor detalle).
 	 */
-	public void tick()
-	{ 
+	public void tick(){ 
+		
+		tiempo += 1;
+		
+		/** nave **/
+		
 		nave.dibujarse(entorno);
 
 		if(entorno.estaPresionada(entorno.TECLA_IZQUIERDA)) {
 			nave.moverIzquierda();
 		}
+		
 		if(entorno.estaPresionada(entorno.TECLA_DERECHA)) {
 			nave.moverDerecha();
 		}
 		
-		for (Asteroide a : this.asteroides) {
-			a.dibujarse(entorno);
-			a.avanzar();
-			if(nave.colision(a)) {
-					System.exit(0);		
-			}
-			if(proyectilNave.colisionoAsteroide(a)) {
-        		disparo = false;
-        		proyectilNave.y = 600;
-			}
-		}
-		
-		//pregunto disparo para que solo se pueda hacer una por vez
 		if(entorno.estaPresionada(entorno.TECLA_ESPACIO) && !disparo) {
 			disparo = true;
 			proyectilNave.x = nave.x;
@@ -73,12 +73,52 @@ public class Juego extends InterfaceJuego {
       			proyectilNave.subir();
 				proyectilNave.dibujarse(entorno);		
 			}  
+      		
       		else {
         		disparo = false;
         		proyectilNave.y = 600;    			
       		}
-
+		}		
+		
+		
+		
+		/**asteroides**/
+		
+		if(hayNullAsteroides(asteroides) && tiempo % 70 == 0) {
+			
+			for (int i = 0; i< this.asteroides.length; i++) {
+				if (this.asteroides[i] == null) {
+					this.asteroides[i] = new Asteroide();
+					break;
+				}
+			}
 		}
+		
+			
+		for (int i = 0; i< this.asteroides.length; i++) {
+			
+			if(this.asteroides[i] != null) {
+				
+				this.asteroides[i].dibujarse(entorno);
+				this.asteroides[i].avanzar();
+				
+				if(nave.colision(this.asteroides[i])) {
+						System.exit(0);		
+				}
+				
+				if(proyectilNave.colisionoAsteroide(this.asteroides[i])) {
+	        		disparo = false;
+	        		proyectilNave.y = 600;
+				}	
+				
+				if(this.asteroides[i].getY() > 600) {
+					this.asteroides[i] = null;
+				}
+			}
+		}
+		
+		
+
 
 	}
 
@@ -86,4 +126,23 @@ public class Juego extends InterfaceJuego {
 	public static void main(String[] args) {
 		Juego juego = new Juego();
 	}
+	
+	
+	
+	/** FUNCIONES **/
+	
+	public static boolean hayNullAsteroides(Asteroide[] asteroides) {
+		
+		for(Asteroide a : asteroides) {
+			if(a == null) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
 }
+
+
+

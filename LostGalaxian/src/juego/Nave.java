@@ -42,6 +42,6 @@ public class Nave {
 	
 	public boolean colision(Asteroide asteroide) {
 		
-		return (asteroide.getY() > 480 && (asteroide.getX() > this.x -60 && asteroide.getX() < this.x + 60)); 
+		return (asteroide.getY() > 480 && (asteroide.getX() > this.x - 60 && asteroide.getX() < this.x + 60)); 
 	}
 }
