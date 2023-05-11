@@ -44,7 +44,7 @@ public class Juego extends InterfaceJuego {
 				this.asteroides[i] = new Asteroide();
 			}
 			else {
-				this.asteroides[i] = null;
+				this.asteroides[i] = null; 
 			}
 			
 		}
@@ -129,8 +129,8 @@ public class Juego extends InterfaceJuego {
 				this.asteroides[i].dibujarse(entorno);
 				this.asteroides[i].avanzar();
 				
-				if(nave.colision(this.asteroides[i])) {
-						System.exit(0);		
+				if(nave.colisionAsteroide(this.asteroides[i])) {
+						//System.exit(0);		
 				}
 				
 				if(proyectilNave.colisionoAsteroide(this.asteroides[i])) {
@@ -159,32 +159,35 @@ public class Juego extends InterfaceJuego {
 		}
 		
 		
-		for (int i=0; i<destructores.length;i++) { 
+		for (int i = 0; i < destructores.length ; i++) { 
 
 			// DIBUJA LOS DESTRUCTORES  
 			if (this.destructores[i] != null) { 
 				
 				destructores[i].dibujarse(entorno); 
 				destructores[i].avanzar(); 
-		     
+				
+				if(gen.nextInt(100) == 1) {
+					destructores[i].cambiarDireccion();
+				}
+				
+				if(nave.colisionDestructor(this.destructores[i])) {
+					//System.exit(0);		
+				}
+				
 				// BORRA DE LA PANTALLA LOS DESTRUCTORES MUERTOS 
 				if (proyectilNave.colisionoDestructor(destructores[i])) { 
 					disparo = false;  
 					destructores[i] = null; 
 					muertos++; 
-				}
-				
-				
-				if(nave.colisionDestructor(this.destructores[i])) {
-					System.exit(0);		
-				}
-	
+				}	
 				
 				if(this.destructores[i].getY() > 600) {
-					this.destructores[i] = null;
-				}
+					destructores[i] = null;
+				}				
 			}
 		}
+		
 		
 		
 		for (int i = 0 ; i < proyectilesDestructor.length ; i++) {
@@ -202,6 +205,10 @@ public class Juego extends InterfaceJuego {
 					proyectilesDestructor[i].dibujarse(entorno);
 					proyectilesDestructor[i].bajar(); 
 					
+					if(nave.colisionProyectilDestructor(proyectilesDestructor[i])) {
+						//System.exit(0);
+					}
+					
 					if(proyectilesDestructor[i].y > 600) {
 						proyectilesDestructor[i] = null;
 					}
@@ -210,7 +217,21 @@ public class Juego extends InterfaceJuego {
 		}
 		   
 		
+		/** COLISION ASTEROIDES Y DESTRUCTORES no andaaaaaaaaaa**/
 		
+//		for(int d = 0 ; d < destructores.length ; d++) {
+//			
+//			for(int a = 0 ; a < asteroides.length ; a++) {
+//				
+//				if(destructores[d] != null && asteroides[a] != null) {
+//					
+//					if(destructores[d].colisionaAsteroide(asteroides[a])) {
+//						
+//						destructores[d].cambiarDireccion();
+//					}
+//				}
+//			}
+//		}
 
 
 	}

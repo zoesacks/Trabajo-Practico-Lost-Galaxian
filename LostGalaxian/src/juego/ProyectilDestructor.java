@@ -24,7 +24,7 @@ public class ProyectilDestructor {
 	} 
 	
 	public void bajar() { 
-		this.y += Math.cos(this.angulo)*10;   // A CORROBORAR SI FUNCIONA BIEN 
+		this.y += Math.cos(this.angulo) * 5;
 	} 
 	
 	public double getX() { 

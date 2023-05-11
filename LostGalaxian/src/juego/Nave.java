@@ -29,19 +29,19 @@ public class Nave {
 	
 	public void moverIzquierda() {
 		if(x > 60) {
-			this.x -= Math.cos(this.angulo)*20;		
+			this.x -= Math.cos(this.angulo)*10;		
 		}
 	}
 	
 	
 	public void moverDerecha() {
 		if(x < 740) {
-			this.x += Math.cos(this.angulo)*20;		
+			this.x += Math.cos(this.angulo)*10;		
 		}
 	}
 	
 	
-	public boolean colision(Asteroide asteroide) {
+	public boolean colisionAsteroide(Asteroide asteroide) {
 		return (asteroide.getY() > 480 && (asteroide.getX() > this.x - 60 && asteroide.getX() < this.x + 60)); 
 	}
 	
@@ -51,6 +51,6 @@ public class Nave {
 	} 
 		   
 	public boolean colisionProyectilDestructor(ProyectilDestructor proyectilDestructor) { 
-		return (proyectilDestructor.getY() > 480 && (proyectilDestructor.getX() > this.x -60 && proyectilDestructor.getX() < this.x + 60)); 
+		return (proyectilDestructor.getY() > 500 && (proyectilDestructor.getX() > this.x - 60 && proyectilDestructor.getX() < this.x + 60)); 
 	}
 }

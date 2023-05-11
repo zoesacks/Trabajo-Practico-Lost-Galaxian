@@ -8,8 +8,7 @@ public class Destructor {
 	private double x, y; 
 	private double angulo; 
 	private double velocidad; 
-	private int[] signo; 
-	private boolean muerto; 
+	private int[] signo;  
 	Image img; 
 	  
 	public Destructor() { 
@@ -19,8 +18,6 @@ public class Destructor {
 		this.signo = new int[2]; 
 		this.signo[0] = -1; 
 		this.signo[1] = 1; 
-		this.muerto = false; 
-		System.out.println("DESTRUCTOR"); 
 	} 
 	  
 	public void dibujarse(Entorno entorno) { 
@@ -53,6 +50,11 @@ public class Destructor {
 			   }
 		}	 
 	 
+	public void cambiarDireccion() {
+		this.angulo = Math.PI - this.angulo;
+	}
+	
+	
 	public double getY() { 
 		return this.y; 
 	} 
@@ -63,13 +65,11 @@ public class Destructor {
 	 
 	public double getAngulo() { 
 		return this.angulo; 
-	} 
-	 
-	public boolean getMuerto() { 
-		return this.muerto; 
-	} 
-	 
-	public void setMuerto (boolean muerto) { 
-		this.muerto = muerto; 
-	} 
+	}
+
+//	public boolean colisionaAsteroide(Asteroide asteroide) {
+//		return ((asteroide.getY() > this.x - 100 && asteroide.getY() < this.x + 100) && (asteroide.getX() > this.x - 100 && asteroide.getX() < this.x + 10));
+//	}
+
+	  
 }
