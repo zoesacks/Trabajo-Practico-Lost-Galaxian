@@ -1,5 +1,7 @@
 package juego;
 
+import java.util.Random;
+
 import entorno.*;
 
 public class Juego extends InterfaceJuego {
@@ -8,11 +10,18 @@ public class Juego extends InterfaceJuego {
 	
 	// Variables y métodos propios de cada grupo
 	Nave nave;
+	ProyectilNave proyectilNave;	
+	
 	Asteroide[] asteroides;
-	ProyectilNave proyectilNave;
+	Destructor[] destructores; 
+	ProyectilDestructor[] proyectilesDestructor;
+	
 	boolean disparo, perdio;
-	int tiempo;
+	int tiempo, muertos, dispararDestructor;
+	Random gen;
 
+	
+	
 	Juego()
 	{
 
@@ -20,7 +29,14 @@ public class Juego extends InterfaceJuego {
 		
 		nave = new Nave(400, 550);
 		proyectilNave = new ProyectilNave(400, 550);		
-		this.asteroides = new Asteroide[6];
+		this.asteroides = new Asteroide[5]; 
+		this.destructores = new Destructor[5]; 
+		this.proyectilesDestructor = new ProyectilDestructor[5]; 
+		
+		for (int i = 0; i < this.destructores.length; i++) { 
+			
+			this.destructores[i] = null; 
+		} 
 		
 		for (int i = 0; i< this.asteroides.length; i++) {
 			
@@ -31,12 +47,23 @@ public class Juego extends InterfaceJuego {
 				this.asteroides[i] = null;
 			}
 			
-		}		
+		}
+		
+		for (int i = 0; i< this.proyectilesDestructor.length; i++) {
+			
+			this.proyectilesDestructor[i] = null;
+
+			
+		}
 
 		disparo = false; 
 		perdio = false;
 		
 		tiempo = 0;
+		muertos = 0;
+		dispararDestructor = 0;
+		gen = new Random();
+		
 		
 		this.entorno.iniciar();
 	}
@@ -51,7 +78,7 @@ public class Juego extends InterfaceJuego {
 		
 		tiempo += 1;
 		
-		/** nave **/
+		/**NAVE**/
 		
 		nave.dibujarse(entorno);
 
@@ -82,7 +109,7 @@ public class Juego extends InterfaceJuego {
 		
 		
 		
-		/**asteroides**/
+		/**ASTEROIDES**/
 		
 		if(hayNullAsteroides(asteroides) && tiempo % 70 == 0) {
 			
@@ -118,6 +145,72 @@ public class Juego extends InterfaceJuego {
 		}
 		
 		
+		
+		/**DESTRUCTORES**/
+		
+		if(hayNullDestructores(destructores) && tiempo % 200 == 0) {
+			
+			for (int i = 0; i< this.destructores.length; i++) {
+				if (this.destructores[i] == null) {
+					this.destructores[i] = new Destructor();
+					break;
+				}
+			}
+		}
+		
+		
+		for (int i=0; i<destructores.length;i++) { 
+
+			// DIBUJA LOS DESTRUCTORES  
+			if (this.destructores[i] != null) { 
+				
+				destructores[i].dibujarse(entorno); 
+				destructores[i].avanzar(); 
+		     
+				// BORRA DE LA PANTALLA LOS DESTRUCTORES MUERTOS 
+				if (proyectilNave.colisionoDestructor(destructores[i])) { 
+					disparo = false;  
+					destructores[i] = null; 
+					muertos++; 
+				}
+				
+				
+				if(nave.colisionDestructor(this.destructores[i])) {
+					System.exit(0);		
+				}
+	
+				
+				if(this.destructores[i].getY() > 600) {
+					this.destructores[i] = null;
+				}
+			}
+		}
+		
+		
+		for (int i = 0 ; i < proyectilesDestructor.length ; i++) {
+			
+			if (this.destructores[i] != null) {
+				
+				if(proyectilesDestructor[i] == null) {
+					
+					if(gen.nextInt(10) == 1) {
+						proyectilesDestructor[i] = new ProyectilDestructor(destructores[i].getX(), destructores[i].getY());
+					}				
+				}
+				
+				else {
+					proyectilesDestructor[i].dibujarse(entorno);
+					proyectilesDestructor[i].bajar(); 
+					
+					if(proyectilesDestructor[i].y > 600) {
+						proyectilesDestructor[i] = null;
+					}
+				}
+			}
+		}
+		   
+		
+		
 
 
 	}
@@ -134,6 +227,18 @@ public class Juego extends InterfaceJuego {
 	public static boolean hayNullAsteroides(Asteroide[] asteroides) {
 		
 		for(Asteroide a : asteroides) {
+			if(a == null) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	
+	public static boolean hayNullDestructores(Destructor[] destructores) {
+		
+		for(Destructor a : destructores) {
 			if(a == null) {
 				return true;
 			}

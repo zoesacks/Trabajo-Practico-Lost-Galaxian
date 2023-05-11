@@ -20,19 +20,19 @@ public class Nave {
 	}
 
 
-	public void dibujarse(Entorno entorno)
-	{
+	public void dibujarse(Entorno entorno){
 	
 		entorno.dibujarImagen(img, x, y, angulo);;
 	
 	}
 	
+	
 	public void moverIzquierda() {
 		if(x > 60) {
 			this.x -= Math.cos(this.angulo)*20;		
 		}
-
 	}
+	
 	
 	public void moverDerecha() {
 		if(x < 740) {
@@ -40,8 +40,17 @@ public class Nave {
 		}
 	}
 	
+	
 	public boolean colision(Asteroide asteroide) {
-		
 		return (asteroide.getY() > 480 && (asteroide.getX() > this.x - 60 && asteroide.getX() < this.x + 60)); 
+	}
+	
+	
+	public boolean colisionDestructor(Destructor destructor) { 
+		return (destructor.getY() > 480 && (destructor.getX() > this.x -60 && destructor.getX() < this.x + 60));  
+	} 
+		   
+	public boolean colisionProyectilDestructor(ProyectilDestructor proyectilDestructor) { 
+		return (proyectilDestructor.getY() > 480 && (proyectilDestructor.getX() > this.x -60 && proyectilDestructor.getX() < this.x + 60)); 
 	}
 }
