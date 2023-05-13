@@ -17,7 +17,7 @@ public class Asteroide {
 	public Asteroide() {
 		this.img = Herramientas.cargarImagen("asteroide.png");
 		this.establecerPosicion();
-		this.velocidad = 2.0;
+		this.velocidad = 1;
 		this.signo = new int[2];
 		this.signo[0] = -1;
 		this.signo[1] = 1;
@@ -30,8 +30,8 @@ public class Asteroide {
 	
 	private void establecerPosicion() {
 		Random gen = new Random();
-		this.x = gen.nextInt(600) + 1;
-		this.y = 20;
+		this.x = (gen.nextInt(800)+1);
+		this.y = gen.nextInt(20) + 1;
 		this.signo = new int[2];
 		this.signo[0] = -1;
 		this.signo[1] = 1;
@@ -52,6 +52,10 @@ public class Asteroide {
 			this.x = 780;
 			this.angulo = Math.PI - this.angulo;
 		   }
+	}
+	
+	public void cambiarDireccion() {
+		this.angulo = Math.PI - this.angulo;
 	}
 	
 	public double getY() {

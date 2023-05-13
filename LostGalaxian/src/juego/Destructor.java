@@ -11,10 +11,10 @@ public class Destructor {
 	private int[] signo;  
 	Image img; 
 	  
-	public Destructor() { 
+	public Destructor(Asteroide[] asteroides) { 
 		this.img = Herramientas.cargarImagen("destructor.png"); 
-		this.establecerPosicion(); 
-		this.velocidad = 2.0; 
+		this.establecerPosicion(asteroides); 
+		this.velocidad = 1; 
 		this.signo = new int[2]; 
 		this.signo[0] = -1; 
 		this.signo[1] = 1; 
@@ -24,9 +24,11 @@ public class Destructor {
 		entorno.dibujarImagen(img, x, y, angulo); 
 	} 
 	  
-	private void establecerPosicion() { 
+	private void establecerPosicion(Asteroide[] asteroides) { 
+		
+		
 		Random gen = new Random(); 
-		this.x = gen.nextInt(600) + 1; 
+		this.x = (gen.nextInt(800) + 1); 
 		this.y = gen.nextInt(20) + 1; 
 		this.signo = new int[2]; 
 		this.signo[0] = -1; 
@@ -66,10 +68,18 @@ public class Destructor {
 	public double getAngulo() { 
 		return this.angulo; 
 	}
+	
 
-//	public boolean colisionaAsteroide(Asteroide asteroide) {
-//		return ((asteroide.getY() > this.x - 100 && asteroide.getY() < this.x + 100) && (asteroide.getX() > this.x - 100 && asteroide.getX() < this.x + 10));
-//	}
+	public boolean colisionaAsteroide(Asteroide asteroide) {
+		double dist = distancia(asteroide.getX(), asteroide.getY(), this.x, this.y);
+		return (dist <= 50);
+	}
 
-	  
+	
+	public double distancia(double x1, double y1, double x2, double y2) {
+		double dx = x1 - x2;
+		double dy = y1 - y2;
+		double distancia = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
+		return distancia;
+	}
 }
