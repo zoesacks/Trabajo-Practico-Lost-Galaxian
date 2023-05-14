@@ -20,7 +20,7 @@ public class ProyectilDestructor {
 	
 	
 	public void dibujarse(Entorno entorno) { 
-		entorno.dibujarImagen(img, x, y, angulo);
+		entorno.dibujarImagen(img, x, y, 0, 0.03);
 	} 
 	
 	public void bajar() { 

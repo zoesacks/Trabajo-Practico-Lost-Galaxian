@@ -15,7 +15,7 @@ public class Asteroide {
 	Image img;
 	
 	public Asteroide() {
-		this.img = Herramientas.cargarImagen("asteroide.png");
+		this.img = Herramientas.cargarImagen("asteroide.gif");
 		this.establecerPosicion();
 		this.velocidad = 1;
 		this.signo = new int[2];
@@ -25,7 +25,7 @@ public class Asteroide {
 	}
 	
 	public void dibujarse(Entorno entorno) {
-		entorno.dibujarImagen(img, x, y, angulo);
+		entorno.dibujarImagen(img, x, y, 0, 0.4);
 	}
 	
 	private void establecerPosicion() {

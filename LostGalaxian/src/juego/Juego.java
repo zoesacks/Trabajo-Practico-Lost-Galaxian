@@ -1,6 +1,6 @@
 package juego;
 
-import java.awt.Color;
+import java.awt.*;
 import java.util.Random;
 
 import entorno.*;
@@ -17,17 +17,18 @@ public class Juego extends InterfaceJuego {
 	Destructor[] destructores;
 	ProyectilDestructor[] proyectilesDestructor;
 
-	boolean disparo, perdio;
+	boolean perdio;
 	int tiempo, muertos, dispararDestructor, ultimaVezD, ultimaVezA;
 	Random gen;
 	Color colorTexto;
+	Image fondo1;
 
 	Juego() {
 
 		this.entorno = new Entorno(this, "Lost Galaxian - Grupo 3 - v1", 800, 600);
 
-		nave = new Nave(400, 550);
-		proyectilNave = new ProyectilNave(400, 550);
+		nave = new Nave(400, 500);
+		proyectilNave = null;
 		this.asteroides = new Asteroide[5];
 		this.destructores = new Destructor[5];
 		this.proyectilesDestructor = new ProyectilDestructor[5];
@@ -48,16 +49,18 @@ public class Juego extends InterfaceJuego {
 
 		}
 
-		disparo = false;
-		perdio = false;
+		
 
 		tiempo = 40;
 		muertos = 0;
 		dispararDestructor = 0;
-		gen = new Random();
 		ultimaVezD = 0;
 		ultimaVezA = 0;
+		
+		gen = new Random();
+		
 		colorTexto = new Color(255, 255, 255);
+		fondo1 = Herramientas.cargarImagen("fondo.gif");
 		this.entorno.iniciar();
 	
 	}
@@ -71,6 +74,9 @@ public class Juego extends InterfaceJuego {
 	public void tick() {
 
 		tiempo += 1;
+		
+		/**FONDO**/
+		entorno.dibujarImagen(fondo1, 400, 300, 0, 1.9);
 		
 		/**DIBUJAR CANTIDAD DE ENEMIGOS ELIMINADOS**/
 		entorno.cambiarFont("Arial", 18, colorTexto);
@@ -89,20 +95,18 @@ public class Juego extends InterfaceJuego {
 			nave.moverDerecha();
 		}
 
-		if (entorno.estaPresionada(entorno.TECLA_ESPACIO) && !disparo) {
-			disparo = true;
-			proyectilNave.x = nave.x;
+		if (entorno.estaPresionada(entorno.TECLA_ESPACIO) && proyectilNave == null) {
+			proyectilNave = new ProyectilNave(nave.x, 450);
 		}
 
-		if (disparo) {
+		if (proyectilNave != null) {
 			if (proyectilNave.y > 0) {
 				proyectilNave.subir();
 				proyectilNave.dibujarse(entorno);
 			}
 
 			else {
-				disparo = false;
-				proyectilNave.y = 600;
+				proyectilNave = null;
 			}
 		}
 		
@@ -148,13 +152,16 @@ public class Juego extends InterfaceJuego {
 				this.asteroides[i].avanzar();
 
 				if (nave.colisionAsteroide(this.asteroides[i])) {
-					// System.exit(0);
+					//System.exit(0);
+				}
+				
+				if(proyectilNave != null) {
+					
+					if (proyectilNave.colisionoAsteroide(this.asteroides[i])) {
+						proyectilNave = null;
+					}			
 				}
 
-				if (proyectilNave.colisionoAsteroide(this.asteroides[i])) {
-					disparo = false;
-					proyectilNave.y = 600;
-				}
 
 				if (this.asteroides[i].getY() > 600) {
 					this.asteroides[i] = null;
@@ -175,15 +182,20 @@ public class Juego extends InterfaceJuego {
 				destructores[i].avanzar();
 
 				if (nave.colisionDestructor(this.destructores[i])) {
-					// System.exit(0);
+					//System.exit(0);
 				}
 
 				// BORRA DE LA PANTALLA LOS DESTRUCTORES MUERTOS
-				if (proyectilNave.colisionoDestructor(destructores[i])) {
-					disparo = false;
-					destructores[i] = null;
-					muertos++;
+				if(proyectilNave != null) {
+					
+					if (proyectilNave.colisionoDestructor(destructores[i])) {
+						proyectilNave = null;
+						destructores[i] = null;
+						muertos++;
+						break;
+					}					
 				}
+	
 
 				if (this.destructores[i] != null && this.destructores[i].getY() > 600) {
 					destructores[i] = null;
@@ -199,8 +211,7 @@ public class Juego extends InterfaceJuego {
 				if (proyectilesDestructor[i] == null) {
 
 					if (gen.nextInt(10) == 1) {
-						proyectilesDestructor[i] = new ProyectilDestructor(destructores[i].getX(),
-								destructores[i].getY());
+						proyectilesDestructor[i] = new ProyectilDestructor(destructores[i].getX(), destructores[i].getY());
 					}
 				}
 
@@ -209,7 +220,7 @@ public class Juego extends InterfaceJuego {
 					proyectilesDestructor[i].bajar();
 
 					if (nave.colisionProyectilDestructor(proyectilesDestructor[i])) {
-						// System.exit(0);
+						System.exit(0);
 					}
 
 					if (proyectilesDestructor[i].y > 600) {
@@ -219,23 +230,6 @@ public class Juego extends InterfaceJuego {
 			}
 		}
 
-		/** COLISION ASTEROIDES Y DESTRUCTORES no andaaaaaaaaaa **/
-
-		/**for (int d = 0; d < destructores.length; d++) {
-
-			for (int a = 0; a < asteroides.length; a++) {
-
-				if (destructores[d] != null && asteroides[a] != null) {
-					
-
-					if (destructores[d].colisionaAsteroide(asteroides[a])) {
-							destructores[d].cambiarDireccion();
-							asteroides[a].cambiarDireccion();
-						}
-
-					} 
-			}
-		}**/
 
 	}
 
