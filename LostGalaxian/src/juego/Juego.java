@@ -1,6 +1,7 @@
 package juego;
 
 import java.awt.*;
+import java.util.Arrays;
 import java.util.Random;
 
 import entorno.*;
@@ -203,34 +204,30 @@ public class Juego extends InterfaceJuego {
 				}
 			}
 		}
-
+		
 		for (int i = 0; i < proyectilesDestructor.length; i++) {
-
-			if (this.destructores[i] != null) {
-
-				if (proyectilesDestructor[i] == null) {
-
-					if (gen.nextInt(10) == 1) {
-						proyectilesDestructor[i] = new ProyectilDestructor(destructores[i].getX(), destructores[i].getY());
-					}
+			if (this.destructores[i] != null && proyectilesDestructor[i] == null) {
+				if (gen.nextInt(10) == 1) {
+					proyectilesDestructor[i] = new ProyectilDestructor(destructores[i].getX(), destructores[i].getY());
 				}
 
-				else {
-					proyectilesDestructor[i].dibujarse(entorno);
-					proyectilesDestructor[i].bajar();
+			}
+			
+			if (proyectilesDestructor[i] != null) {
+				
+				proyectilesDestructor[i].dibujarse(entorno);
+				proyectilesDestructor[i].bajar();	
 
-					if (nave.colisionProyectilDestructor(proyectilesDestructor[i])) {
-						System.exit(0);
-					}
-
-					if (proyectilesDestructor[i].y > 600) {
-						proyectilesDestructor[i] = null;
-					}
+				if (nave.colisionProyectilDestructor(proyectilesDestructor[i])) {
+					//System.exit(0);
+				}
+				if (proyectilesDestructor[i].y > 600) {
+					proyectilesDestructor[i] = null;
 				}
 			}
+
+
 		}
-
-
 	}
 
 	@SuppressWarnings("unused")
