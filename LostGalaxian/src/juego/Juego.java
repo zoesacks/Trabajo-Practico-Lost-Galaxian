@@ -18,11 +18,11 @@ public class Juego extends InterfaceJuego {
 	Destructor[] destructores;
 	ProyectilDestructor[] proyectilesDestructor;
 
-	boolean perdio;
-	int tiempo, muertos, dispararDestructor, ultimaVezD, ultimaVezA;
+	boolean perdio, menu;
+	int tiempo, muertos, dispararDestructor, ultimaVezD, ultimaVezA, vidas;
 	Random gen;
 	Color colorTexto;
-	Image fondo1;
+	Image fondo1, menu1;
 
 	Juego() {
 
@@ -57,8 +57,11 @@ public class Juego extends InterfaceJuego {
 		dispararDestructor = 0;
 		ultimaVezD = 0;
 		ultimaVezA = 0;
+		vidas = 50;
 		
 		gen = new Random();
+		
+		menu1 = Herramientas.cargarImagen("menu.jpeg");
 		
 		colorTexto = new Color(255, 255, 255);
 		fondo1 = Herramientas.cargarImagen("fondo.gif");
@@ -73,7 +76,25 @@ public class Juego extends InterfaceJuego {
 	 * del TP para mayor detalle).
 	 */
 	public void tick() {
-
+		if (!menu) {
+			InicioMenu();
+		}
+		else {
+			InicioJuego();
+		}
+	}
+	
+	public void InicioMenu() {
+		if(entorno.sePresiono(entorno.TECLA_ENTER)) {
+			menu = true;
+			return;
+		}
+		else {
+			entorno.dibujarImagen(menu1, 400, 300, 0, 1.0);
+		}
+	}
+	
+	public void InicioJuego() {
 		tiempo += 1;
 		
 		/**FONDO**/
@@ -83,7 +104,10 @@ public class Juego extends InterfaceJuego {
 		entorno.cambiarFont("Arial", 18, colorTexto);
 		entorno.escribirTexto("Destructores eliminados: " + muertos, 20, 580);
 				
-
+		/**DIBUJAR CANTIDAD DE VIDAS DE LA NAVE**/
+		entorno.cambiarFont("Arial", 18, colorTexto);
+		entorno.escribirTexto("Vidas: " + vidas, 20, 560);
+		
 		/** NAVE **/
 
 		nave.dibujarse(entorno);
@@ -153,7 +177,10 @@ public class Juego extends InterfaceJuego {
 				this.asteroides[i].avanzar();
 
 				if (nave.colisionAsteroide(this.asteroides[i])) {
-					//System.exit(0);
+					vidas--;
+					if(vidas == 0) {
+						System.exit(0);
+					}
 				}
 				
 				if(proyectilNave != null) {
@@ -183,7 +210,10 @@ public class Juego extends InterfaceJuego {
 				destructores[i].avanzar();
 
 				if (nave.colisionDestructor(this.destructores[i])) {
-					//System.exit(0);
+					vidas--;
+					if(vidas == 0) {
+						System.exit(0);
+					}
 				}
 
 				// BORRA DE LA PANTALLA LOS DESTRUCTORES MUERTOS
@@ -219,7 +249,10 @@ public class Juego extends InterfaceJuego {
 				proyectilesDestructor[i].bajar();	
 
 				if (nave.colisionProyectilDestructor(proyectilesDestructor[i])) {
-					//System.exit(0);
+					vidas--;
+					if(vidas == 0) {
+						System.exit(0);
+					}
 				}
 				if (proyectilesDestructor[i].y > 600) {
 					proyectilesDestructor[i] = null;

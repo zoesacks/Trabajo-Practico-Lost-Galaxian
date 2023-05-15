@@ -26,7 +26,7 @@ public class ProyectilNave {
 	}
 
 	public void subir() {
-		this.y -= Math.cos(this.angulo)*5;
+		this.y -= Math.cos(this.angulo)*10;
 		
 	}
 
