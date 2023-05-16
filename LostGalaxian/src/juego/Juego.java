@@ -7,7 +7,7 @@ import java.util.Random;
 import entorno.*;
 
 public class Juego extends InterfaceJuego {
-	// El objeto Entorno que controla el tiempo y otros
+ 	// El objeto Entorno que controla el tiempo y otros
 	private Entorno entorno;
 
 	// Variables y métodos propios de cada grupo
@@ -22,7 +22,7 @@ public class Juego extends InterfaceJuego {
 	int tiempo, muertos, dispararDestructor, ultimaVezD, ultimaVezA, vidas;
 	Random gen;
 	Color colorTexto;
-	Image fondo1, menu1;
+	Image fondo1, menu1, gameOver1;
 
 	Juego() {
 
@@ -62,6 +62,7 @@ public class Juego extends InterfaceJuego {
 		gen = new Random();
 		
 		menu1 = Herramientas.cargarImagen("menu.jpeg");
+		gameOver1 = Herramientas.cargarImagen("game-over.jpeg");
 		
 		colorTexto = new Color(255, 255, 255);
 		fondo1 = Herramientas.cargarImagen("fondo.gif");
@@ -79,8 +80,11 @@ public class Juego extends InterfaceJuego {
 		if (!menu) {
 			InicioMenu();
 		}
-		else {
+		else if(vidas > 0) {
 			InicioJuego();
+		}
+		if (vidas == 0) {
+			GameOver();
 		}
 	}
 	
@@ -178,9 +182,6 @@ public class Juego extends InterfaceJuego {
 
 				if (nave.colisionAsteroide(this.asteroides[i])) {
 					vidas--;
-					if(vidas == 0) {
-						System.exit(0);
-					}
 				}
 				
 				if(proyectilNave != null) {
@@ -211,9 +212,6 @@ public class Juego extends InterfaceJuego {
 
 				if (nave.colisionDestructor(this.destructores[i])) {
 					vidas--;
-					if(vidas == 0) {
-						System.exit(0);
-					}
 				}
 
 				// BORRA DE LA PANTALLA LOS DESTRUCTORES MUERTOS
@@ -249,17 +247,30 @@ public class Juego extends InterfaceJuego {
 				proyectilesDestructor[i].bajar();	
 
 				if (nave.colisionProyectilDestructor(proyectilesDestructor[i])) {
-					vidas--;
-					if(vidas == 0) {
-						System.exit(0);
-					}
+					vidas--;	
 				}
 				if (proyectilesDestructor[i].y > 600) {
 					proyectilesDestructor[i] = null;
 				}
 			}
-
-
+		}
+		if(vidas == 0) {
+			return;		
+		}
+	}
+	public void GameOver() {
+		if(entorno.sePresiono(entorno.TECLA_ESPACIO)) {
+			System.exit(0);
+			return;
+		}
+		else if(entorno.sePresiono(entorno.TECLA_ENTER)) {
+			vidas = 50;
+			muertos = 0;
+			menu = false;
+			return;
+		}
+		else {
+			entorno.dibujarImagen(gameOver1, 400, 300, 0, 1.5);
 		}
 	}
 
