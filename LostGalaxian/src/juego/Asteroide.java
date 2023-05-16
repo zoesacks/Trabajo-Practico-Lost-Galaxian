@@ -15,7 +15,7 @@ public class Asteroide {
 	Image img;
 	
 	public Asteroide() {
-		this.img = Herramientas.cargarImagen("asteroide.gif");
+		this.img = Herramientas.cargarImagen("imagenes/asteroide.gif");
 		this.establecerPosicion();
 		this.velocidad = 1;
 		this.signo = new int[2];

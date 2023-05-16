@@ -12,7 +12,7 @@ public class Destructor {
 	Image img; 
 	  
 	public Destructor(Asteroide[] asteroides) { 
-		this.img = Herramientas.cargarImagen("destructor.gif"); 
+		this.img = Herramientas.cargarImagen("imagenes/destructor.gif"); 
 		this.establecerPosicion(asteroides); 
 		this.velocidad = 1; 
 		this.signo = new int[2]; 

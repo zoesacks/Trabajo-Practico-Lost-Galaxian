@@ -15,7 +15,7 @@ public class ProyectilNave {
 		
 		this.x = x;
 		this.y = y;
-		this.img = Herramientas.cargarImagen("proyectil-nave.png");
+		this.img = Herramientas.cargarImagen("imagenes/proyectil-nave.png");
 		this.angulo = 0;
 
 	}

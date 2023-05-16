@@ -14,7 +14,7 @@ public class Nave {
 	{
 		this.x = x;
 		this.y = y;
-		this.img = Herramientas.cargarImagen("nave3.gif");
+		this.img = Herramientas.cargarImagen("imagenes/nave3.gif");
 		this.angulo = 0;
 
 	}

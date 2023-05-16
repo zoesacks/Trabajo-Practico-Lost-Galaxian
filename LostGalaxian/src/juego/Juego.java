@@ -18,11 +18,11 @@ public class Juego extends InterfaceJuego {
 	Destructor[] destructores;
 	ProyectilDestructor[] proyectilesDestructor;
 
-	boolean perdio, menu;
+	boolean perdio, menu, juego, abandonar, reintentar, reintento;
 	int tiempo, muertos, dispararDestructor, ultimaVezD, ultimaVezA, vidas;
 	Random gen;
 	Color colorTexto;
-	Image fondo1, menu1, gameOver1;
+	Image fondo1, fondoInicio1, fondoPerdio, reintentarGris, reintentarColor, abandonarGris, abandonarColor, corazon;
 
 	Juego() {
 
@@ -35,17 +35,14 @@ public class Juego extends InterfaceJuego {
 		this.proyectilesDestructor = new ProyectilDestructor[5];
 
 		for (int i = 0; i < this.destructores.length; i++) {
-
 			this.destructores[i] = null;
 		}
 
 		for (int i = 0; i < this.asteroides.length; i++) {
-
 			this.asteroides[i] = null;
 		}
 
 		for (int i = 0; i < this.proyectilesDestructor.length; i++) {
-
 			this.proyectilesDestructor[i] = null;
 
 		}
@@ -57,15 +54,29 @@ public class Juego extends InterfaceJuego {
 		dispararDestructor = 0;
 		ultimaVezD = 0;
 		ultimaVezA = 0;
-		vidas = 50;
+		vidas = 5;
+		
+		abandonar = false;
+		reintentar = true;
+		menu = true;
+		juego = false;
+		perdio = false;
+		reintento = false;
 		
 		gen = new Random();
 		
-		menu1 = Herramientas.cargarImagen("menu.jpeg");
-		gameOver1 = Herramientas.cargarImagen("game-over.jpeg");
+		fondoInicio1 = Herramientas.cargarImagen("imagenes/fondo-inicio1.gif");
+		fondoPerdio = Herramientas.cargarImagen("imagenes/game-over.gif");
+		fondo1 = Herramientas.cargarImagen("imagenes/fondo.gif");	
+		reintentarGris = Herramientas.cargarImagen("imagenes/reintentar-gris.png") ;
+		reintentarColor = Herramientas.cargarImagen("imagenes/reintentar-color.png") ; 
+		abandonarGris = Herramientas.cargarImagen("imagenes/abandonar-gris.png") ;
+		abandonarColor = Herramientas.cargarImagen("imagenes/abandonar-color.png");
+		corazon = Herramientas.cargarImagen("imagenes/corazon.png");
+		
 		
 		colorTexto = new Color(255, 255, 255);
-		fondo1 = Herramientas.cargarImagen("fondo.gif");
+
 		this.entorno.iniciar();
 	
 	}
@@ -77,25 +88,29 @@ public class Juego extends InterfaceJuego {
 	 * del TP para mayor detalle).
 	 */
 	public void tick() {
-		if (!menu) {
+		if (menu) {
 			InicioMenu();
 		}
-		else if(vidas > 0) {
+		if(juego) {
 			InicioJuego();
 		}
-		if (vidas == 0) {
+		if (perdio && !juego) {
 			GameOver();
 		}
+//		if (!perdio && !juego) {
+//			
+//		}
 	}
 	
 	public void InicioMenu() {
 		if(entorno.sePresiono(entorno.TECLA_ENTER)) {
-			menu = true;
+			juego = true;
+			menu = false;
 			return;
 		}
-		else {
-			entorno.dibujarImagen(menu1, 400, 300, 0, 1.0);
-		}
+
+		entorno.dibujarImagen(fondoInicio1, 400, 300, 0, 0.6);
+
 	}
 	
 	public void InicioJuego() {
@@ -104,13 +119,41 @@ public class Juego extends InterfaceJuego {
 		/**FONDO**/
 		entorno.dibujarImagen(fondo1, 400, 300, 0, 1.9);
 		
+		for (int i = 0; i < vidas; i++) {
+			entorno.dibujarImagen(corazon, 30 + i * 35, 30, 0, 0.3);
+		}
+		
 		/**DIBUJAR CANTIDAD DE ENEMIGOS ELIMINADOS**/
 		entorno.cambiarFont("Arial", 18, colorTexto);
 		entorno.escribirTexto("Destructores eliminados: " + muertos, 20, 580);
-				
-		/**DIBUJAR CANTIDAD DE VIDAS DE LA NAVE**/
-		entorno.cambiarFont("Arial", 18, colorTexto);
-		entorno.escribirTexto("Vidas: " + vidas, 20, 560);
+		
+		
+		if(reintento) {
+			proyectilNave = null;
+			
+			for (int i = 0; i < this.destructores.length; i++) {
+				this.destructores[i] = null;
+			}
+
+			for (int i = 0; i < this.asteroides.length; i++) {
+				this.asteroides[i] = null;
+			}
+
+			for (int i = 0; i < this.proyectilesDestructor.length; i++) {
+				this.proyectilesDestructor[i] = null;
+
+			}
+			
+			tiempo = 40;
+			muertos = 0;
+			dispararDestructor = 0;
+			ultimaVezD = 0;
+			ultimaVezA = 0;
+			vidas = 5;
+			
+			reintento = false;
+		}
+		
 		
 		/** NAVE **/
 
@@ -176,62 +219,59 @@ public class Juego extends InterfaceJuego {
 		for (int i = 0; i < this.asteroides.length; i++) {
 
 			if (this.asteroides[i] != null) {
-
 				this.asteroides[i].dibujarse(entorno);
 				this.asteroides[i].avanzar();
+			}
+			
+			if (this.asteroides[i] != null && nave.colisionAsteroide(this.asteroides[i])) {
+	        	vidas--;
+	        	this.asteroides[i] = null;
+			}
 
-				if (nave.colisionAsteroide(this.asteroides[i])) {
-					vidas--;
-				}
-				
-				if(proyectilNave != null) {
-					
-					if (proyectilNave.colisionoAsteroide(this.asteroides[i])) {
-						proyectilNave = null;
-					}			
-				}
+			if (this.asteroides[i] != null && proyectilNave != null) {
 
-
-				if (this.asteroides[i].getY() > 600) {
-					this.asteroides[i] = null;
+				if (proyectilNave.colisionoAsteroide(this.asteroides[i])) {
+					proyectilNave = null;
 				}
 			}
+
+			if (this.asteroides[i] != null && this.asteroides[i].getY() > 600) {
+				this.asteroides[i] = null;
+			}
 		}
+		
 
-
+		/** DESTRUCTORES**/
+		
 		for (int i = 0; i < destructores.length; i++) {
 
 			// DIBUJA LOS DESTRUCTORES
 			if (this.destructores[i] != null) {
+				
 				if (gen.nextInt(200) == 1 ) {
 					destructores[i].cambiarDireccion();
 				}
 				
 				destructores[i].dibujarse(entorno);
 				destructores[i].avanzar();
+			}
 
-				if (nave.colisionDestructor(this.destructores[i])) {
-					vidas--;
-				}
+			if (this.destructores[i] != null && nave.colisionDestructor(this.destructores[i])) {
+				vidas--;
+				destructores[i] = null;
+			}
+			
+			if (this.destructores[i] != null && proyectilNave != null && proyectilNave.colisionoDestructor(destructores[i])) {
+				proyectilNave = null;
+				destructores[i] = null;
+				muertos++;
+			}					
 
-				// BORRA DE LA PANTALLA LOS DESTRUCTORES MUERTOS
-				if(proyectilNave != null) {
-					
-					if (proyectilNave.colisionoDestructor(destructores[i])) {
-						proyectilNave = null;
-						destructores[i] = null;
-						muertos++;
-						break;
-					}					
-				}
-	
-
-				if (this.destructores[i] != null && this.destructores[i].getY() > 600) {
-					destructores[i] = null;
-					break;
-				}
+			if (this.destructores[i] != null && this.destructores[i] != null && this.destructores[i].getY() > 600) {
+				destructores[i] = null;
 			}
 		}
+		
 		
 		for (int i = 0; i < proyectilesDestructor.length; i++) {
 			if (this.destructores[i] != null && proyectilesDestructor[i] == null) {
@@ -242,36 +282,65 @@ public class Juego extends InterfaceJuego {
 			}
 			
 			if (proyectilesDestructor[i] != null) {
-				
 				proyectilesDestructor[i].dibujarse(entorno);
 				proyectilesDestructor[i].bajar();	
-
-				if (nave.colisionProyectilDestructor(proyectilesDestructor[i])) {
-					vidas--;	
-				}
-				if (proyectilesDestructor[i].y > 600) {
-					proyectilesDestructor[i] = null;
-				}
 			}
+			
+			if (proyectilesDestructor[i] != null && nave.colisionProyectilDestructor(proyectilesDestructor[i])) {
+				vidas--;	
+				proyectilesDestructor[i] = null;
+			}
+			
+			if (proyectilesDestructor[i] != null && proyectilesDestructor[i].y > 600) {
+				proyectilesDestructor[i] = null;
+			}
+			
 		}
+		
+		
 		if(vidas == 0) {
+			juego = false;
+			perdio = true;
 			return;		
 		}
+		
 	}
+	
+	
 	public void GameOver() {
-		if(entorno.sePresiono(entorno.TECLA_ESPACIO)) {
-			System.exit(0);
-			return;
+		entorno.dibujarImagen(fondoPerdio, 400, 300, 0, 0.6);
+		
+		if(reintentar) {
+			entorno.dibujarImagen(reintentarColor, 505, 400, 0, 1);	
+			entorno.dibujarImagen(abandonarGris, 300, 400, 0, 1);
+			
+			if(entorno.estaPresionada(entorno.TECLA_DERECHA)) {
+				reintentar = false;
+				abandonar = true;
+			}
+			
+			if(entorno.sePresiono(entorno.TECLA_ENTER)) {
+				juego = true; 
+				reintento = true;
+				return;
+			}
 		}
-		else if(entorno.sePresiono(entorno.TECLA_ENTER)) {
-			vidas = 50;
-			muertos = 0;
-			menu = false;
-			return;
+		
+		if(abandonar) {
+			entorno.dibujarImagen(abandonarColor, 300, 400, 0, 1);
+			entorno.dibujarImagen(reintentarGris, 505, 400, 0, 1);
+			
+			if(entorno.estaPresionada(entorno.TECLA_IZQUIERDA)) {
+				abandonar = false;
+				reintentar = true;
+			}
+			
+			if(entorno.sePresiono(entorno.TECLA_ENTER)) {
+				System.exit(0);
+			}
 		}
-		else {
-			entorno.dibujarImagen(gameOver1, 400, 300, 0, 1.5);
-		}
+		
+		
 	}
 
 	@SuppressWarnings("unused")
