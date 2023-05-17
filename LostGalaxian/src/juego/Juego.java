@@ -13,12 +13,12 @@ public class Juego extends InterfaceJuego {
 	// Variables y métodos propios de cada grupo
 	Nave nave;
 	ProyectilNave proyectilNave;
-
+	Vida vida;
 	Asteroide[] asteroides;
 	Destructor[] destructores;
 	ProyectilDestructor[] proyectilesDestructor;
 
-	boolean perdio, menu, juego, abandonar, reintentar, reintento;
+	boolean perdio, menu, juego, abandonar, reintentar, reintento, vidaExtra;
 	int tiempo, muertos, dispararDestructor, vidas;
 	Random gen;
 	Color colorTexto;
@@ -33,6 +33,8 @@ public class Juego extends InterfaceJuego {
 		this.asteroides = new Asteroide[5];
 		this.destructores = new Destructor[5];
 		this.proyectilesDestructor = new ProyectilDestructor[5];
+		
+		vidaExtra = false;
 
 		for (int i = 0; i < this.destructores.length; i++) {
 			this.destructores[i] = null;
@@ -48,7 +50,7 @@ public class Juego extends InterfaceJuego {
 		}
 
 		
-
+		vida = null;
 		tiempo = 40;
 		muertos = 0;
 		dispararDestructor = 0;
@@ -146,6 +148,7 @@ public class Juego extends InterfaceJuego {
 			muertos = 0;
 			dispararDestructor = 0;
 			vidas = 5;
+			vidaExtra = false;
 			
 			reintento = false;
 		}
@@ -207,7 +210,30 @@ public class Juego extends InterfaceJuego {
 				
 			} 
 		
-
+		/** VIDA EXTRA **/
+		
+		if (tiempo% 1000 == 0 && vidas < 5) {
+			vida = new Vida();
+			vidaExtra = true;
+		}
+		
+		if (vidaExtra) {
+			
+			vida.dibujarse(entorno);
+			vida.avanzar();
+			
+			if (nave.colisionVida(vida)) {
+				vidas++;
+				vida = null;
+				vidaExtra = false;
+			}
+			
+			if (vida != null && vida.getY() > 600) {
+				vida = null;
+				vidaExtra = false;
+			}
+			
+		}
 
 		/** ASTEROIDES **/
 

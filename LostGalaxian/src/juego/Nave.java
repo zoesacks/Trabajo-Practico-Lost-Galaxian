@@ -53,4 +53,8 @@ public class Nave {
 	public boolean colisionProyectilDestructor(ProyectilDestructor proyectilDestructor) { 
 		return (proyectilDestructor.getY() > 400 && (proyectilDestructor.getX() > this.x - 50 && proyectilDestructor.getX() < this.x + 50)); 
 	}
+	
+	public boolean colisionVida(Vida vida) { 
+		return (vida.getY() > 400 && (vida.getX() > this.x - 50 && vida.getX() < this.x + 50)); 
+	}
 }
