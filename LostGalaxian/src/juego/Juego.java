@@ -19,7 +19,7 @@ public class Juego extends InterfaceJuego {
 	ProyectilDestructor[] proyectilesDestructor;
 
 	boolean perdio, menu, juego, abandonar, reintentar, reintento;
-	int tiempo, muertos, dispararDestructor, ultimaVezD, ultimaVezA, vidas;
+	int tiempo, muertos, dispararDestructor, vidas;
 	Random gen;
 	Color colorTexto;
 	Image fondo1, fondoInicio1, fondoPerdio, reintentarGris, reintentarColor, abandonarGris, abandonarColor, corazon;
@@ -52,8 +52,6 @@ public class Juego extends InterfaceJuego {
 		tiempo = 40;
 		muertos = 0;
 		dispararDestructor = 0;
-		ultimaVezD = 0;
-		ultimaVezA = 0;
 		vidas = 5;
 		
 		abandonar = false;
@@ -147,8 +145,6 @@ public class Juego extends InterfaceJuego {
 			tiempo = 40;
 			muertos = 0;
 			dispararDestructor = 0;
-			ultimaVezD = 0;
-			ultimaVezA = 0;
 			vidas = 5;
 			
 			reintento = false;
@@ -182,27 +178,27 @@ public class Juego extends InterfaceJuego {
 			}
 		}
 		
-		/**CREACION DE NUEVOS ASTEROIDES Y DESTRUCTORES **/
+		/**CREACION DE NUEVOS ASTEROIDES**/
 
 				
 		if (tiempo%90== 0) {
-			if (tiempo-ultimaVezA > 60 && cantidadNullAsteroides(asteroides) >= 2) {
-				
 					for (int i=0; i<this.asteroides.length; i++) {
 						if (this.asteroides[i] == null) {
 							this.asteroides[i] = new Asteroide();
-							ultimaVezA = tiempo;
 							break;
 						}
 
 					}
+			
+		}
+		
+		/**CREACION DE NUEVOS DESTRUCTORES **/
 				
-			} else if (tiempo-ultimaVezD > 60 && cantidadNullDestructores(destructores) >= 2) {
+		if (tiempo % 140 == 0){
 		
 					for (int i=0; i<this.destructores.length; i++) {
 						if (this.destructores[i] == null) {
-								this.destructores[i] = new Destructor(asteroides);
-								ultimaVezD = tiempo;	
+								this.destructores[i] = new Destructor();
 								break;
 						}
 
@@ -210,9 +206,8 @@ public class Juego extends InterfaceJuego {
 				
 				
 			} 
-		}
-			
 		
+
 
 		/** ASTEROIDES **/
 
@@ -311,8 +306,8 @@ public class Juego extends InterfaceJuego {
 		entorno.dibujarImagen(fondoPerdio, 400, 300, 0, 0.6);
 		
 		if(reintentar) {
-			entorno.dibujarImagen(reintentarColor, 505, 400, 0, 1);	
-			entorno.dibujarImagen(abandonarGris, 300, 400, 0, 1);
+			entorno.dibujarImagen(reintentarColor, 300, 400, 0, 1);	
+			entorno.dibujarImagen(abandonarGris, 505, 400, 0, 1);
 			
 			if(entorno.estaPresionada(entorno.TECLA_DERECHA)) {
 				reintentar = false;
@@ -327,8 +322,8 @@ public class Juego extends InterfaceJuego {
 		}
 		
 		if(abandonar) {
-			entorno.dibujarImagen(abandonarColor, 300, 400, 0, 1);
-			entorno.dibujarImagen(reintentarGris, 505, 400, 0, 1);
+			entorno.dibujarImagen(abandonarColor, 505, 400, 0, 1);
+			entorno.dibujarImagen(reintentarGris, 300, 400, 0, 1);
 			
 			if(entorno.estaPresionada(entorno.TECLA_IZQUIERDA)) {
 				abandonar = false;
@@ -347,32 +342,5 @@ public class Juego extends InterfaceJuego {
 	public static void main(String[] args) {
 		Juego juego = new Juego();
 	}
-
-	/** FUNCIONES **/
-
-
-	public static int cantidadNullAsteroides(Asteroide[] asteroides) {
-		int cant = 0;
-		for (Asteroide a : asteroides) {
-			if (a == null) {
-				cant ++;
-			}
-		}
-
-		return cant;
-	}
-	
-	public static int cantidadNullDestructores(Destructor[] destructores) {
-		int cant = 0;
-		for (Destructor d : destructores) {
-			if (d == null) {
-				cant++;
-			}
-		}
-
-		return cant;
-	}
-
-
 
 }

@@ -11,9 +11,9 @@ public class Destructor {
 	private int[] signo;  
 	Image img; 
 	  
-	public Destructor(Asteroide[] asteroides) { 
+	public Destructor() { 
 		this.img = Herramientas.cargarImagen("imagenes/destructor.gif"); 
-		this.establecerPosicion(asteroides); 
+		this.establecerPosicion(); 
 		this.velocidad = 1; 
 		this.signo = new int[2]; 
 		this.signo[0] = -1; 
@@ -24,7 +24,7 @@ public class Destructor {
 		entorno.dibujarImagen(img, x, y, 0, 0.3);
 	} 
 	  
-	private void establecerPosicion(Asteroide[] asteroides) { 
+	private void establecerPosicion() { 
 		
 		
 		Random gen = new Random(); 
