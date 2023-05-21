@@ -27,7 +27,7 @@ public class ProyectilNave {
 
 	public void subir() {
 		this.y -= Math.cos(this.angulo)*10;
-		
+		 
 	}
 
 	public boolean colisionoAsteroide(Asteroide asteroide) {
@@ -36,5 +36,8 @@ public class ProyectilNave {
 
 	public boolean colisionoDestructor(Destructor destructor) { 
 		  return ((destructor.getY() > this.y - 20 && destructor.getY() < this.y + 20)  && (destructor.getX() > this.x -30 && destructor.getX() < this.x + 30)); 
+		 }
+	public boolean colisionoDestructorJefe(DestructorJefe destructorJefe) { 
+		  return ((destructorJefe.getY() > this.y - 20 && destructorJefe.getY() < this.y + 20)  && (destructorJefe.getX() > this.x -30 && destructorJefe.getX() < this.x + 30)); 
 		 }
 }

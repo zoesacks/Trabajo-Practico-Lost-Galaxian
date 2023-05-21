@@ -14,7 +14,7 @@ public class ProyectilDestructor {
 		this.x = x; 
 		this.y = y; 
 		this.angulo = 0; 
-		this.img = Herramientas.cargarImagen("imagenes/proyectil-destructor.png"); 
+		this.img = Herramientas.cargarImagen("imagenes/proyectil-destructor.png");  
 		//  bajar(); 
 	} 
 	

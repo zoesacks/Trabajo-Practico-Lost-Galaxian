@@ -34,7 +34,7 @@ public class Nave {
 	}
 	
 	
-	public void moverDerecha() {
+	public void moverDerecha() { 
 		if(x < 740) {
 			this.x += Math.cos(this.angulo)*10;		
 		}
@@ -54,6 +54,9 @@ public class Nave {
 		return (proyectilDestructor.getY() > 400 && (proyectilDestructor.getX() > this.x - 50 && proyectilDestructor.getX() < this.x + 50)); 
 	}
 	
+	public boolean colisionProyectilJefe(ProyectilJefe proyectilJefe) { 
+		return (proyectilJefe.getY() > 400 && (proyectilJefe.getX() > this.x - 50 && proyectilJefe.getX() < this.x + 50)); 
+	}
 	public boolean colisionVida(Vida vida) { 
 		return (vida.getY() > 400 && (vida.getX() > this.x - 50 && vida.getX() < this.x + 50)); 
 	}

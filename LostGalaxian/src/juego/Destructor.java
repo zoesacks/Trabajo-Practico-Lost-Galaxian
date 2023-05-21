@@ -21,7 +21,7 @@ public class Destructor {
 	} 
 	  
 	public void dibujarse(Entorno entorno) { 
-		entorno.dibujarImagen(img, x, y, 0, 0.3);
+		entorno.dibujarImagen(img, x, y, 0, 0.3); 
 	} 
 	  
 	private void establecerPosicion() { 
