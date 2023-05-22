@@ -299,7 +299,7 @@ public class Juego extends InterfaceJuego {
 		
 		/** DESTRUCTOR JEFE **/
 		//crea el jefe
-		if (destJefe == null && muertos == 1) {
+		if (destJefe == null && muertos == 3) {
 			destJefe = new DestructorJefe();
 		}
 
@@ -375,13 +375,7 @@ public class Juego extends InterfaceJuego {
 		
 		/** GANO o PERDIO **/
 
-		if (vidaDestJefe == 0) {
-			juego = false;
-			termino = true;
-			return;
-		}
-
-		if (vidas == 0) {
+		if (vidaDestJefe == 0 || vidas == 0 ) {
 			juego = false;
 			termino = true;
 			return;
