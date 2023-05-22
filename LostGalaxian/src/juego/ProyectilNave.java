@@ -31,13 +31,14 @@ public class ProyectilNave {
 	}
 
 	public boolean colisionoAsteroide(Asteroide asteroide) {
-		return ((asteroide.getY() > this.y - 20 )  && (asteroide.getX() > this.x -30 && asteroide.getX() < this.x + 20));
+		return ((asteroide.getY() > this.y - 20 )  && (asteroide.getX() + 10 > this.x - 20 && asteroide.getX() - 10 < this.x + 10));
 	}
 
 	public boolean colisionoDestructor(Destructor destructor) { 
-		  return ((destructor.getY() > this.y - 20 && destructor.getY() < this.y + 20)  && (destructor.getX() > this.x -30 && destructor.getX() < this.x + 30)); 
+		  return ((destructor.getY() > this.y - 20)  && (destructor.getX() + 10 > this.x - 20 && destructor.getX() - 10 < this.x + 20)); 
 		 }
+	
 	public boolean colisionoDestructorJefe(DestructorJefe destructorJefe) { 
-		  return ((destructorJefe.getY() > this.y - 20 && destructorJefe.getY() < this.y + 20)  && (destructorJefe.getX() > this.x -30 && destructorJefe.getX() < this.x + 30)); 
+		  return ((destructorJefe.getY() > this.y - 20)  && (destructorJefe.getX() + 60 > this.x - 20 && destructorJefe.getX() - 60 < this.x + 20)); 
 		 }
 }
