@@ -31,7 +31,7 @@ public class Juego extends InterfaceJuego {
 	
 	Random gen;
 	Color colorTexto;
-	Image fondo1, fondoInicio1, fondoPerdio, reintentarGris, reintentarColor, abandonarGris, abandonarColor, volverJuegarColor, volverJugarGris, corazon, win;
+	Image fondo1, fondoInicio1, fondoPerdio, reintentarGris, reintentarColor, abandonarGris, nivel, abandonarColor, volverJuegarColor, volverJugarGris, corazon, win;
 
 	Juego() {
 
@@ -84,6 +84,7 @@ public class Juego extends InterfaceJuego {
 		volverJugarGris = Herramientas.cargarImagen("imagenes/volver-jugar-gris.png");
 		corazon = Herramientas.cargarImagen("imagenes/corazon.png");
 		win = Herramientas.cargarImagen("imagenes/win.gif");
+		nivel = Herramientas.cargarImagen("imagenes/nivel.png");
 
 		colorTexto = new Color(255, 255, 255);
 
@@ -231,6 +232,11 @@ public class Juego extends InterfaceJuego {
 			if (this.asteroides[i] != null && this.asteroides[i].getY() > 600) {
 				this.asteroides[i] = null;
 			}
+			
+			//borra el asteroide si esta el jefe final
+			if(this.asteroides[i] != null && this.destJefe != null) {
+				this.asteroides[i] = null;
+			}
 		}
 
 		
@@ -265,6 +271,11 @@ public class Juego extends InterfaceJuego {
 			if (this.destructores[i] != null && this.destructores[i] != null && this.destructores[i].getY() > 600) {
 				destructores[i] = null;
 			}
+			
+			//borra los destructores y sus proyectiles cuando aparece el jefe final
+			if(this.destJefe != null && this.destructores[i] != null) {
+				destructores[i] = null;
+			}
 		}
 
 		//proyectiles del destructor
@@ -293,6 +304,11 @@ public class Juego extends InterfaceJuego {
 			if (proyectilesDestructor[i] != null && proyectilesDestructor[i].y > 600) {
 				proyectilesDestructor[i] = null;
 			}
+			
+			//borra proyectiles de la pantalla si esta el jefefinal
+			if(destJefe != null) {
+				proyectilesDestructor[i] = null;
+			}
 
 		}
 
@@ -309,7 +325,9 @@ public class Juego extends InterfaceJuego {
 				proyectilJefe = new ProyectilJefe(destJefe.getX(), destJefe.getY());
 			}
 		}
-
+		
+		if(destJefe != null && destJefe.getY() < 150) {
+			entorno.dibujarImagen(nivel, 400, 300, 0, 2);		}
 		//dibuja proyectil y jefe
 		if (proyectilJefe != null) {
 			proyectilJefe.dibujarse(entorno);
@@ -340,7 +358,7 @@ public class Juego extends InterfaceJuego {
 		
 		
 		/** VIDA EXTRA **/
-		if (tiempo % 500 == 0 && vidas < 5) {
+		if (tiempo % 500 == 0 && vidas < 5 && destJefe == null) {
 			vida = new Vida();
 		}
 
@@ -357,6 +375,10 @@ public class Juego extends InterfaceJuego {
 			if (vida != null && vida.getY() > 600) {
 				vida = null;
 			}
+			
+			if(destJefe != null) {
+				vida = null;
+			}
 
 		}
 		
@@ -368,7 +390,7 @@ public class Juego extends InterfaceJuego {
 		//dibuja vidas del destructor
 		if(destJefe != null) {
 			for (int i = 0; i < vidaDestJefe; i++) {
-				entorno.dibujarImagen(corazon, 770 - i * 35, 30, 0, 0.3);
+				entorno.dibujarImagen(destJefe.img, 770 - i * 35, 30, 0, 0.11);
 			}
 		}
 		

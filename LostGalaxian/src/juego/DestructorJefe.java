@@ -11,12 +11,15 @@ public class DestructorJefe {
 	double y;
 	double angulo;
 	Image img;
+	double velocidad;
+	
 
 	public DestructorJefe() {
 		this.x = 380;
 		this.y = 40;
 		this.img = Herramientas.cargarImagen("imagenes/boss.gif");
 		this.angulo = 0;
+		this.velocidad = 3;
 
 	}
 
@@ -25,12 +28,12 @@ public class DestructorJefe {
 	}
 
 	public void mover() {
-		if (this.y < 90) {
-			this.y += 2 * Math.cos(this.angulo);
+		if (this.y < 150) {
+			this.y += 0.5 * Math.cos(this.angulo);
 		} 
 		
 		else {
-			this.x += 1 * Math.cos(this.angulo);
+			this.x += this.velocidad * Math.cos(this.angulo);
 			if (this.x < 100) {
 				this.x = 100;
 				this.angulo = Math.PI - this.angulo;

@@ -25,7 +25,7 @@ public class ProyectilJefe {
 	}
 
 	public void bajar() {
-		this.y += Math.cos(this.angulo) * 2;
+		this.y += Math.cos(this.angulo) * 5;
 
 	}
 
