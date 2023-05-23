@@ -8,14 +8,14 @@ import entorno.Herramientas;
 public class ProyectilJefe {
 	double x;
 	double y;
-	double angulo;
+	double velocidad;
 	Image img;
 
 	public ProyectilJefe(double x, double y) {
 		this.x = x;
 		this.y = y;
 		this.img = Herramientas.cargarImagen("imagenes/proyectil-destructor.png");
-		this.angulo = 0;
+		this.velocidad = 5;
 
 	}
 
@@ -25,7 +25,7 @@ public class ProyectilJefe {
 	}
 
 	public void bajar() {
-		this.y += Math.cos(this.angulo) * 5;
+		this.y += velocidad;
 
 	}
 

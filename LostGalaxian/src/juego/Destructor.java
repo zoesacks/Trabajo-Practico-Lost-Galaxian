@@ -61,19 +61,20 @@ public class Destructor {
 		this.angulo = angulo;
 	}
 
-	public boolean colisionoAsteroide(Asteroide asteroide) { 
-		  return ((asteroide.getY() + 50 > this.y - 30 && asteroide.getY() < this.y + 20) && (asteroide.getX() + 10 > this.x - 40 && asteroide.getX() - 10 < this.x + 40)); 
-		 }
-	
+	public boolean colisionoAsteroide(Asteroide asteroide) {
+		return ((asteroide.getY() + 50 > this.y - 30 && asteroide.getY() < this.y + 20)
+				&& (asteroide.getX() + 10 > this.x - 40 && asteroide.getX() - 10 < this.x + 40));
+	}
+
 	public void cambiarDireccion() {
-	this.angulo = Math.PI - this.angulo;
+		this.angulo = Math.PI - this.angulo;
 	}
-	
+
 	public void cambiarDireccionDerIzq(double d) {
-			this.angulo = Math.PI - this.angulo;
-			this.x += 15 * d;
+		this.angulo = Math.PI - this.angulo;
+		this.x += 15 * d;
 	}
-	
+
 	public double getY() {
 		return this.y;
 	}
@@ -88,7 +89,7 @@ public class Destructor {
 
 	public void mover(double n) {
 		this.x += 15 * n;
-		
+
 	}
 
 }
