@@ -207,6 +207,65 @@ public class Juego extends InterfaceJuego {
 			}
 		}
 
+		/** CAMBIAR DIRECCION SI ASTEROIDE Y DESTRUCTOR COLISIONA **/
+
+		for (int i = 0; i < asteroides.length; i++) {
+			for (int j = 0; j < destructores.length; j++) {
+
+				if (destructores[j] != null && asteroides[i] != null
+						&& (destructores[j].colisionoAsteroide(asteroides[i]))) {
+
+					// pero que se mueva un poco y el destructor valla a l;a derecha(0.78...)
+					if (destructores[j].getX() <= asteroides[i].getX()) {
+
+						// si destructor a la izquierda(el angulo es aprox 2.35 cuando va a la izq) que
+						// siga llendo a la izquierda pero lo alejamos un poco
+						if (destructores[j].getAngulo() > 2) {
+							destructores[j].mover(-1);
+						}
+
+						// si esta llendo a la derecha lo cambiamos para que valla a la izquierda
+						else {
+							destructores[j].cambiarDireccionDerIzq(-1);
+						}
+
+						// con los asteroides hacemos lo mismo solo que tienen que ir a la derecha (el
+						// angulo cuando van a la derecha es aprox 0.78)
+						if (asteroides[i].getAngulo() < 1) {
+							asteroides[i].mover(1);
+						}
+
+						else {
+							asteroides[i].cambiarDireccionDerIzq(1);
+						}
+					}
+
+					// en cambio si el destructor esta a la derecha hay que hacer lo mismo pero al
+					// contario
+					else {
+
+						// que el destructor valla a la derecha
+						if (destructores[j].getAngulo() < 1) {
+							destructores[j].mover(1);
+						}
+
+						else {
+							destructores[j].cambiarDireccionDerIzq(1);
+						}
+
+						// y el asteroide a la izquierda
+						if (asteroides[i].getAngulo() > 2) {
+							asteroides[i].mover(-1);
+						}
+
+						else {
+							asteroides[i].cambiarDireccionDerIzq(-1);
+						}
+					}
+				}
+			}
+		}
+		
 		
 		/** ASTEROIDES **/
 		for (int i = 0; i < this.asteroides.length; i++) {

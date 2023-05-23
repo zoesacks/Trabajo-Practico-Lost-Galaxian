@@ -49,10 +49,31 @@ public class Destructor {
 		}
 	}
 
-	public void cambiarDireccion() {
-		this.angulo = Math.PI - this.angulo;
+	public void setX(double x) {
+		this.x = x;
 	}
 
+	public void setY(double y) {
+		this.y = y;
+	}
+
+	public void setAngulo(double angulo) {
+		this.angulo = angulo;
+	}
+
+	public boolean colisionoAsteroide(Asteroide asteroide) { 
+		  return ((asteroide.getY() + 50 > this.y - 30 && asteroide.getY() < this.y + 20) && (asteroide.getX() + 10 > this.x - 40 && asteroide.getX() - 10 < this.x + 40)); 
+		 }
+	
+	public void cambiarDireccion() {
+	this.angulo = Math.PI - this.angulo;
+	}
+	
+	public void cambiarDireccionDerIzq(double d) {
+			this.angulo = Math.PI - this.angulo;
+			this.x += 15 * d;
+	}
+	
 	public double getY() {
 		return this.y;
 	}
@@ -63,6 +84,11 @@ public class Destructor {
 
 	public double getAngulo() {
 		return this.angulo;
+	}
+
+	public void mover(double n) {
+		this.x += 15 * n;
+		
 	}
 
 }

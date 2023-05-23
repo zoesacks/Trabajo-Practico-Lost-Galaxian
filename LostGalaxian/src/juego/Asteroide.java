@@ -58,12 +58,34 @@ public class Asteroide {
 		this.angulo = Math.PI - this.angulo;
 	}
 	
+	public void cambiarDireccionDerIzq(double d) {
+		this.angulo = Math.PI - this.angulo;
+		this.x += 15 * d;
+	}
+	
+	public void setX(double x) {
+		this.x = x;
+	}
+
+	public void setY(double y) {
+		this.y = y;
+	}
+
+	public double getAngulo() {
+		return angulo;
+	}
+
 	public double getY() {
 		return this.y;
 	}
 
 	public double getX() {
 		return this.x;
+	}
+
+	public void mover(double n) {
+		this.x += 15 * n;
+		
 	}
 
 
