@@ -12,6 +12,7 @@ public class Juego extends InterfaceJuego {
 
 	// Variables y métodos propios de cada grupo
 	Nave nave;
+	// 
 	ProyectilNave proyectilNave;
 	Vida vida;
 	Asteroide[] asteroides;
@@ -20,7 +21,9 @@ public class Juego extends InterfaceJuego {
 	DestructorJefe destJefe;
 	ProyectilJefe proyectilJefe;
 
-	// booleanos para pantallas
+	// 
+	
+	//booleanos para pantallas
 	boolean termino, menu, juego;
 	// booleanos para botones
 	boolean abandonar, reintentar;
