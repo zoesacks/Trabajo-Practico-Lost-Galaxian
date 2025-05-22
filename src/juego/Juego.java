@@ -7,6 +7,9 @@ import java.util.Random;
 import entorno.*;
 
 public class Juego extends InterfaceJuego {
+	
+	//conflicto
+	
 	// El objeto Entorno que controla el tiempo y otros
 	private Entorno entorno;
 
